@@ -1,11 +1,25 @@
 #!/bin/bash
 
+# check if run as root
+if [ $(id -u "$(whoami)") -ne 0 ]; then
+	echo "SynoShutdownAfterSnapshotReplication needs to run as root!"
+	exit 1
+fi
+
+# check if git is available
+if ! which git; then
+	echo "Git not found. Please install the package \"Git Server\"."
+	exit 1
+fi
+
+# save today's date
 today=$(date +'%Y-%m-%d')
 
 # check if there was a boot since 06H00
 # this prevents that the machine shuts down if it is booted manually
 grep "^${today}T\(\(0[6-9]\)\|\([1-2][0-9]\)\).*\\[synoboot\\].*$" /var/log/messages > /dev/null
 if [ $? -eq 0 ]; then
+	echo "Terminating script because Synology was manually booted." 
 	exit 0
 fi
 
@@ -14,19 +28,14 @@ if [ $# -eq 0 ]; then
 	echo "No shared folders passed as arguments to SynoShutdownAfterSnapshotReplication!"
 	exit 1
 else
-  sharedFolders=( "$@" )
-fi
-
-# check if run as root
-if [ $(id -u "$(whoami)") -ne 0 ]; then
-	echo "SynoShutdownAfterSnapshotReplication needs to run as root!"
-	exit 1
+	echo "The following shared folders where passed: "$@"."
+	sharedFolders=( "$@" )
 fi
 
 # self update run once daily
-if [ ! -f /tmp/.SynoShutdownAfterSnapshotReplicationUpdate ] || [ ${today} -ne $(date -r /tmp/.SynoShutdownAfterSnapshotReplicationUpdate +'%Y-%m-%d') ]; then
+if [ ! -f /tmp/.synoShutdownAfterSnapshotReplicationUpdate ] || [ "${today}" != "$(date -r /tmp/.synoShutdownAfterSnapshotReplicationUpdate +'%Y-%m-%d')" ]; then
 	# touch file to indicate update has run once
-	touch /tmp/.SynoShutdownAfterSnapshotReplicationUpdate
+	touch /tmp/.synoShutdownAfterSnapshotReplicationUpdate
 	# change dir and update via git
 	cd "$(dirname "$0")"
 	git fetch
@@ -35,11 +44,12 @@ if [ ! -f /tmp/.SynoShutdownAfterSnapshotReplicationUpdate ] || [ ${today} -ne $
 		echo "Found a new version, updating..."
 		git pull --force
 		echo "Executing new version..."
-		exec "$0" "$@"
+		exec "$(pwd -P)/synoShutdownAfterSnapshotReplication.sh" "$@"
 		# In case executing new fails
 		echo "Executing new version failed."
 		exit 1
 	fi
+	echo "No updates available."
 fi
 
 # define some vars

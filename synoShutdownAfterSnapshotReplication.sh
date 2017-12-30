@@ -73,7 +73,7 @@ for (( i=0; i<${#replicationJobs[@]}; i++ )); do
 	modificationDate="$(date -r ${replicationJobs[$i]} +'%Y-%m-%d')"
 	if [ "${today}" == "${modificationDate}" ]; then
 		# parse report
-		report="$(jq -r '.plan.target_id, .plan.role, .op_status, .percentage, .progress, .result.success' "${replicationJobs[$i]}" | paste -s -d ',')"	
+		report="$(jq -r '.plan.target_id, .plan.role, .op_status, .percentage, .progress, .result.success' ${replicationJobs[$i]} | paste -s -d ',')"	
 		# check for shared folders
 		for (( j=0; j<nrSharedFolders; j++ )); do
 			if [[ "${report}" =~ ^${sharedFolders[$j]}, ]]; then

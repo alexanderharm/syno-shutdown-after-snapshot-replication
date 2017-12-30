@@ -70,7 +70,7 @@ nrSharedFolders=${#sharedFolders[@]}
 replicationJobs=("$(find /usr/syno/etc/packages/SnapshotReplication/plan/ -type f -name op_report)")
 for (( i=0; i<${#replicationJobs[@]}; i++ )); do
 	# check if modification date is today
-	if [ "${today}" == "$(date -r \"${replicationJobs[$i]}\" +'%Y-%m-%d')" ]; then
+	if [ "${today}" == "$(date -r "${replicationJobs[$i]}" +'%Y-%m-%d')" ]; then
 		# parse report
 		report="$(jq -r '.plan.target_id, .plan.role, .op_status, .percentage, .progress, .result.success' "${replicationJobs[$i]}" | paste -s -d ',')"	
 		# check for shared folders

@@ -77,6 +77,12 @@ if [ ${finishedReplications} -ne ${nrSharedFolders} ]; then
 		exit 0
 	fi
 else
-	echo "All snapshot replications have finished." 
-	shutdown -h +5 "System going down in 5 minutes."
+	# double check if btrfs receive is still running
+	ps aux | grep -v "grep" | grep "btrfs receive"
+	if [ $? -eq 0 ]; then
+		echo "There is still a replication ongoing."
+	else
+		echo "All snapshot replications have finished." 
+		shutdown -h +5 "System going down in 5 minutes."
+	fi
 fi

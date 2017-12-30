@@ -35,6 +35,7 @@ fi
 
 # self update run once daily
 if [ ! -f /tmp/.synoShutdownAfterSnapshotReplicationUpdate ] || [ "${today}" != "$(date -r /tmp/.synoShutdownAfterSnapshotReplicationUpdate +'%Y-%m-%d')" ]; then
+	echo "Running self update..."
 	# touch file to indicate update has run once
 	touch /tmp/.synoShutdownAfterSnapshotReplicationUpdate
 	# change dir and update via git

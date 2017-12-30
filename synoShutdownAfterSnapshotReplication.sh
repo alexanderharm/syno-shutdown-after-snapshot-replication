@@ -7,7 +7,8 @@ if [ $(id -u "$(whoami)") -ne 0 ]; then
 fi
 
 # check if git is available
-if ! which git; then
+which git > /dev/null
+if [ $? -ne 0 ]; then
 	echo "Git not found. Please install the package \"Git Server\"."
 	exit 1
 fi

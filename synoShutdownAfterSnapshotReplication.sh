@@ -58,10 +58,10 @@ fi
 finishedReplications=0
 nrSharedFolders=${#sharedFolders[@]}
 
-# check logs for success message
+# check logs for success message (apparently twice)
 for (( i=0; i<$nrSharedFolders; i++ )); do
-	grep "^${today}.*\\/target \\[${sharedFolders[$i]}\\]: \\[success\\]\\.$" /var/log/synodr_replica_task.log > /dev/null
-	if [ $? -eq 0 ]; then
+	matches=$(grep -o "^${today}.*Finish \\[drsite\\]:\\[sync\\] of plan.*\\/target \\[${sharedFolders[$i]}\\]: \\[success\\]\\.$" /var/log/synodr_replica_task.log | wc -l)
+	if [ $matches -ge 2 ]; then
 		((finishedReplications++))
 	fi
 done

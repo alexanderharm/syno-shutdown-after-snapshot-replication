@@ -33,7 +33,7 @@ fi
 
 # self update run once daily
 if [ ! -f /tmp/.synoShutdownAfterSnapshotReplicationUpdate ] || [ "${today}" != "$(date -r /tmp/.synoShutdownAfterSnapshotReplicationUpdate +'%Y-%m-%d')" ]; then
-	echo "Running self update..."
+	echo "Checking for updates..."
 	# touch file to indicate update has run once
 	touch /tmp/.synoShutdownAfterSnapshotReplicationUpdate
 	# change dir and update via git
@@ -50,6 +50,8 @@ if [ ! -f /tmp/.synoShutdownAfterSnapshotReplicationUpdate ] || [ "${today}" != 
 		exit 1
 	fi
 	echo "No updates available."
+else
+	echo "Already checked for updates today."
 fi
 
 # define some vars
@@ -65,10 +67,10 @@ nrSharedFolders=${#sharedFolders[@]}
 #done
 
 # check the op_report if replication finished successfully
-replicationJobs=( "$(find /usr/syno/etc/packages/SnapshotReplication/plan/ -type f -name op_report)" )
+replicationJobs=("$(find /usr/syno/etc/packages/SnapshotReplication/plan/ -type f -name op_report)")
 for (( i=0; i<${#replicationJobs[@]}; i++ )); do
 	# check if modification date is today
-	if [ "${today}" == "$(date -r "${replicationJobs[$i]}" +'%Y-%m-%d')" ]; then
+	if [ "${today}" == "$(date -r \"${replicationJobs[$i]}\" +'%Y-%m-%d')" ]; then
 		# parse report
 		report="$(jq -r '.plan.target_id, .plan.role, .op_status, .percentage, .progress, .result.success' "${replicationJobs[$i]}" | paste -s -d ',')"	
 		# check for shared folders
@@ -77,8 +79,8 @@ for (( i=0; i<${#replicationJobs[@]}; i++ )); do
 				# check if job finished
 				if [ "${report}" == "${sharedFolders[$j]},2,16,100,2,true" ]; then
 					((finishedReplications++))
-					break
 				fi
+				break
 			fi
 		done
 	fi

@@ -7,6 +7,7 @@ This scripts automatically shuts down a Synology NAS after a list of snapshot re
 - All snapshot replications jobs need to start after midnight on the same day.
 - The script will send warning messages if the tasks are not completed by 23:00.
 - If the NAS is booted manually after 06:00 the script will ***not*** shut it down to allow for maintenance/administration/other tasks.
+- The script will automatically update itself using `git`.
 
 #### 2. Installation:
 

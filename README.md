@@ -11,6 +11,7 @@ This scripts automatically shuts down a Synology NAS after a list of snapshot re
 
 #### 2. Installation:
 
+- install the package `Git Server` on your Synology NAS
 - create a shared folder called e. g. `sysadmin` (you want to restrict access to administrators and hide it in the network)
 - connect via `ssh` to the NAS and execute the following commands
 

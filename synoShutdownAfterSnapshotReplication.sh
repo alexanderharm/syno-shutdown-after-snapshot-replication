@@ -22,6 +22,13 @@ if grep "^${today}T\\(\\(0[6-9]\\)\\|\\([1-2][0-9]\\)\\).*\\[synoboot\\].*$" /va
 	exit 0
 fi
 
+# TODO
+# Implement a parameter to pass the replication start time (see https://stackoverflow.com/q/192249)
+# - check if task end time is before replication start time (either task start & end after rep start time or both before -> next day)
+# - identify related tasks by script name (/usr/syno/etc/scheduled_tasks, action=#common:run#: /volume1/**/*.sh)
+# - check if op_report ends after replication start time
+# - split task file (/usr/syno/etc/scheduled_tasks) using csplit
+
 # check for arguments
 if [ $# -eq 0 ]; then
 	echo "No shared folders passed as arguments to SynoShutdownAfterSnapshotReplication!"

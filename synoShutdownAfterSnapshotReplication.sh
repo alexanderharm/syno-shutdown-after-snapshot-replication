@@ -17,7 +17,7 @@ today=$(date +'%Y-%m-%d')
 
 # check if there was a boot since 06H00
 # this prevents that the machine shuts down if it is booted manually
-if grep "^${today}T\\(\\(0[6-9]\\)\\|\\([1-2][0-9]\\)\\).*\\[synoboot\\].*$" /var/log/messages > /dev/null; then
+if grep -q "^${today}T\\(\\(0[6-9]\\)\\|\\([1-2][0-9]\\)\\).*\\[synoboot\\].*$" /var/log/kern.log; then
 	echo "Terminating script because Synology was manually booted." 
 	exit 0
 fi

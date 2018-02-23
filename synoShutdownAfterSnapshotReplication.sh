@@ -14,7 +14,7 @@ fi
 # set git
 if command -v /usr/bin/git > /dev/null; then
 	git="/usr/bin/git"
-else if command -v /usr/bin/git > /dev/null; then
+elif command -v /usr/bin/git > /dev/null; then
 	git="/usr/local/git/bin/git"
 else
 	git="/opt/bin/git"

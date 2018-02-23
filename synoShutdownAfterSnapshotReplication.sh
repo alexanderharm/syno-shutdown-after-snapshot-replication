@@ -7,9 +7,17 @@ if [ $(id -u "$(whoami)") -ne 0 ]; then
 fi
 
 # check if git is available
-if ! which git > /dev/null; then
-	echo "Git not found. Please install the package \"Git Server\"."
+if ! command -v /usr/bin/git > /dev/null && ! command -v /usr/local/git/bin/git > /dev/null  && ! command -v /opt/bin/git > /dev/null; then
+	echo "Git not found. Please install the official package \"Git Server\", SynoCommunity's \"git\" or Entware-ng's."
 	exit 1
+fi
+# set git
+if command -v /usr/bin/git > /dev/null; then
+	git="/usr/bin/git"
+else if command -v /usr/bin/git > /dev/null; then
+	git="/usr/local/git/bin/git"
+else
+	git="/opt/bin/git"
 fi
 
 # save today's date
@@ -45,11 +53,11 @@ if [ ! -f /tmp/.synoShutdownAfterSnapshotReplicationUpdate ] || [ "${today}" != 
 	touch /tmp/.synoShutdownAfterSnapshotReplicationUpdate
 	# change dir and update via git
 	cd "$(dirname "$0")" || exit 1
-	git fetch
-	commits=$(git rev-list HEAD...origin/master --count)
+	$git fetch
+	commits=$($git rev-list HEAD...origin/master --count)
 	if [ $commits -gt 0 ]; then
 		echo "Found a new version, updating..."
-		git pull --force
+		$git pull --force
 		echo "Executing new version..."
 		exec "$(pwd -P)/synoShutdownAfterSnapshotReplication.sh" "$@"
 		# In case executing new fails

@@ -11,15 +11,29 @@ This scripts automatically shuts down a Synology NAS after a list of snapshot re
 
 #### 2. Installation:
 
-- install the package `Git Server` on your Synology NAS
-- create a shared folder called e. g. `sysadmin` (you want to restrict access to administrators and hide it in the network)
-- connect via `ssh` to the NAS and execute the following commands
+1. Install `git`
+
+  a) Install Synology's package `Git Server` and make sure it is running (requires `SSH`)
+  
+  b) Add SynoCommunity's packages to `Package Center` and install the `Git` package ([https://synocommunity.com/](https://synocommunity.com/#easy-install))
+  
+  c) Setup `Entware-ng` and do `opkg install git` ([https://github.com/Entware-ng/Entware-ng/](https://github.com/Entware-ng/Entware-ng/wiki/Install-on-Synology-NAS))
+  
+2. Create a shared folder called e. g. `sysadmin` (you want to restrict access to administrators and hide it in the network)
+
+3. Connect via `ssh` to the NAS and execute the following commands
 
 ```bash
 # navigate to the shared folder
 cd /volume1/sysadmin
-# clone the following repo
+
+# clone the repo
+# Synology's Git Server
 git clone https://github.com/alexanderharm/syno-shutdown-after-snapshot-replication
+# Synocommunity's Git
+/usr/local/git/bin/git clone https://github.com/alexanderharm/syno-shutdown-after-snapshot-replication
+# Entware-ng's Git
+/opt/bin/git clone https://github.com/alexanderharm/syno-shutdown-after-snapshot-replication
 ```
 
 - create a new task in the `Task Scheduler`

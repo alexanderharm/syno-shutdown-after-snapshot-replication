@@ -64,7 +64,7 @@ Enabled: yes
 
 # Schedule
 Run on the following days: Daily
-First run time:            00:00
+First run time:            01:00
 Frequency:                 Every 30 minute(s)
 Last run time:				     23:30
 

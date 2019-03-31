@@ -82,7 +82,7 @@ nrSharedFolders=${#sharedFolders[@]}
 #done
 
 # check the op_report if replication finished successfully
-readarray replicationJobs <<< "$(find /usr/syno/etc/packages/SnapshotReplication/plan/ -type f -name op_report)"
+readarray replicationJobs <<< "$(find -L /usr/syno/etc/packages/SnapshotReplication/plan/ -type f -name op_report)"
 for (( i=0; i<${#replicationJobs[@]}; i++ )); do
 	# check if modification date is today
 	modificationDate="$(date -r ${replicationJobs[$i]} +'%Y-%m-%d')"

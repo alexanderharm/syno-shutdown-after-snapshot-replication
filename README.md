@@ -58,7 +58,7 @@ sudo /volume1/sysadmin/syno-shutdown-after-snapshot-replication/synoShutdownAfte
 Scheduled task > User-defined script
 
 # General
-Task:    SynoEnableSshLogin
+Task:    SynoShutdownAfterSnapshotReplication
 User:    root
 Enabled: yes
 
@@ -74,5 +74,5 @@ Email:                          (enter the appropriate address)
 Send run details only when
   script terminates abnormally: yes
   
-User-defined script: /volume1/sysadmin/syno-shutdown-after-snapshot-replication/synoShutdownAfterSnapshotReplication.sh  "<sharedFolder1>" "<sharedFolder2>"
+User-defined script: /volume1/sysadmin/syno-shutdown-after-snapshot-replication/synoShutdownAfterSnapshotReplication.sh "<sharedFolder1>" "<sharedFolder2>"
 ```

@@ -14,7 +14,7 @@ elif command -v /usr/local/git/bin/git > /dev/null; then
 elif command -v /opt/bin/git > /dev/null; then
 	git="/opt/bin/git"
 else
-	echo "Git not found therefore no autoupdate. Please install the official package \"Git Server\", SynoCommunity's \"git\" or Entware-ng's."
+	echo "Git not found therefore no autoupdate. Please install the official package \"Git Server\", SynoCommunity's \"git\" or Entware's."
 	git=""
 fi
 

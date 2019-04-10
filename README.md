@@ -15,7 +15,7 @@ This scripts automatically shuts down a Synology NAS after a list of snapshot re
 
 - install the package `Git Server` on your Synology NAS, make sure it is running (requires sometimes extra action in `Package Center` and `SSH` running)
 - alternatively add SynoCommunity to `Package Center` and install the `Git` package ([https://synocommunity.com/](https://synocommunity.com/#easy-install))
-- you can also use `entware-ng` (<https://github.com/Entware/Entware-ng>)
+- you can also use `entware` (<https://github.com/Entware/Entware>)
 
 ##### 2.2 Install this script (using git)
 
